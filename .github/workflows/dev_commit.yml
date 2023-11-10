@@ -50,6 +50,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         id: init
       - run: terraform init
+      - run: echo $ARM_ENVIRONMENT
 
   Format:
     needs: Init
