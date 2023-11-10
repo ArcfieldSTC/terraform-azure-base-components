@@ -35,12 +35,14 @@ jobs:
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache Terraform Init
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: .terraform
+          path: |
+           .terraform
+           .terraform.lock.hcl
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
           restore-keys: |
             ${{ runner.os }}-terraform-
@@ -57,7 +59,7 @@ jobs:
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Terraform Format
         id: fmt
@@ -93,12 +95,14 @@ jobs:
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache Terraform Init
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: .terraform
+          path: |
+           .terraform
+           .terraform.lock.hcl
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
           restore-keys: |
             ${{ runner.os }}-terraform-
