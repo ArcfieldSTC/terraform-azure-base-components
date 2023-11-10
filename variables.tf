@@ -22,7 +22,7 @@ variable "create_rg" {
 variable "rg_location" {
   description = "location of resource group"
   type        = string
-  default     = var.primary_region
+  default     = null
 }
 variable "rg_tags" {
   description = "map of tags to be applied to resource group"
@@ -38,7 +38,7 @@ variable "create_sg" {
 variable "sg_location" {
   description = "location of security group"
   type        = string
-  default     = var.primary_region
+  default     = null
 }
 variable "sg_tags" {
   description = "map of tags to be applied to security group"
@@ -48,7 +48,7 @@ variable "sg_tags" {
 variable "sg_rg_name" {
   description = "resource group name for security group"
   type        = string
-  default     = "${var.name-prefix}-resource-group"
+  default     = null
 }
 
 ### Virtual network variables
@@ -60,12 +60,12 @@ variable "create_vnet" {
 variable "vnet_location" {
   description = "location of virtual network"
   type        = string
-  default     = var.primary_region
+  default     = null
 }
 variable "vnet_rg_name" {
   description = "resource group name for virtual network"
   type        = string
-  default     = "${var.name-prefix}-resource-group"
+  default     = null
 }
 variable "vnet_cidr" {
   description = "CIDR block for virtual network"
@@ -105,7 +105,7 @@ variable "create_ddos" {
 variable "ddos_location" {
   description = "location of DDoS protection plan"
   type        = string
-  default     = var.primary_region
+  default     = null
 }
 variable "ddos_tags" {
   description = "map of tags to be applied to DDoS protection plan"
@@ -115,19 +115,19 @@ variable "ddos_tags" {
 variable "ddos_rg_name" {
   description = "resource group name for DDoS protection plan"
   type        = string
-  default     = "${var.name-prefix}-resource-group"
+  default     = null
 }
 
 ### Main Subnet variables
 variable "main_subnets_rg_name" {
   description = "resource group name for main subnet"
   type        = string
-  default     = "${var.name-prefix}-resource-group"
+  default     = null
 }
 variable "main_subnets_vnet_name" {
   description = "virtual network name for main subnet"
   type        = string
-  default     = "${var.name-prefix}-vnet"
+  default     = null
 }
 variable "main_subnets_service_endpoints" {
   description = "service endpoints for main subnet"
@@ -139,12 +139,12 @@ variable "main_subnets_service_endpoints" {
 variable "service_subnets_rg_name" {
   description = "resource group name for service dedicated subnet"
   type        = string
-  default     = "${var.name-prefix}-resource-group"
+  default     = null
 }
 variable "service_subnets_vnet_name" {
   description = "virtual network name for service dedicated subnet"
   type        = string
-  default     = "${var.name-prefix}-vnet"
+  default     = null
 }
 variable "service_subnets_service_endpoints" {
   description = "service endpoints for service dedicated subnet"
@@ -166,12 +166,12 @@ variable "create_kv" {
 variable "kv_location" {
   description = "location of key vault"
   type        = string
-  default     = var.primary_region
+  default     = null
 }
 variable "kv_rg_name" {
   description = "resource group name for key vault"
   type        = string
-  default     = "${var.name-prefix}-resource-group"
+  default     = null
 }
 variable "kv_tags" {
   description = "map of tags to be applied to key vault"
