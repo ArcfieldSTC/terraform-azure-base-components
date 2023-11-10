@@ -18,6 +18,7 @@ env:
   ARM_OIDC_TOKEN: $ {{ secrets.GITHUB_TOKEN }}
 
 defaults:
+  runs-on: stc-base-runner
   container: hashicorp/terraform:latest
   cache:
     paths:
@@ -30,7 +31,6 @@ jobs:
   Init:
     environment: stc-azure
     if: github.commit_tag == null
-    container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
@@ -50,7 +50,6 @@ jobs:
   Format:
     environment: stc-azure
     if: github.commit_tag == null
-    container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
@@ -62,7 +61,6 @@ jobs:
   Validate:
     environment: stc-azure
     if: github.commit_tag == null
-    container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
@@ -82,7 +80,6 @@ jobs:
   Test:
     environment: stc-azure
     if: github.commit_tag == null
-    container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
