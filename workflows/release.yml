@@ -14,20 +14,21 @@ concurrency: ${{ github.repository }}/${{ github.event.pull_request.head.ref || 
 
 jobs:
   terraform-module-release:
+    environment: stc-azure
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
       actions: write
       administration: write
-    
+
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
-      
+
       - name: Release
         uses: cycjimmy/semantic-release-action@v4.0.0
         id: semantic
@@ -39,5 +40,5 @@ jobs:
             @semantic-release/changelog
             @semantic-release/github
             @semantic-release/git
-          semantic_version: 1.0.0  
+          semantic_version: 1.0.0
           branch: main
