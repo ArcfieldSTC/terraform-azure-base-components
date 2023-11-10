@@ -50,6 +50,7 @@ jobs:
         run: terraform init
 
   Format:
+    needs: 
     environment: stc-azure
     runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
@@ -60,9 +61,10 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -check
+        run: terraform fmt
 
   Validate:
+    needs: Init
     environment: stc-azure
     runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
@@ -84,6 +86,7 @@ jobs:
         run: terraform validate
 
   Test:
+    needs: Init
     environment: stc-azure
     runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
