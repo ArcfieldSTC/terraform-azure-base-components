@@ -22,7 +22,7 @@ env:
   ARM_USE_CLI: false
   ARM_SKIP_PROVIDER_REGISTRATION: true
   ARM_ENVIRONMENT: ${{ secrets.ARM_ENVIRONMENT }}
-  ARM_OIDC_TOKEN: $ {{ secrets.GITHUB_TOKEN }}
+  ARM_OIDC_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 concurrency: ${{ github.repository }}/${{ github.ref }}
@@ -50,7 +50,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         id: init
       - run: terraform init
-      - run: echo $ARM_ENVIRONMENT
 
   Format:
     needs: Init
