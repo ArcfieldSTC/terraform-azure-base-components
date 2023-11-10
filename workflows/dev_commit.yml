@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - dev
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    branches:
+      - main
 
 env:
   TF_LOG: ERROR
