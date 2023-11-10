@@ -50,7 +50,7 @@ jobs:
         run: terraform init
 
   Format:
-    needs: 
+    needs: Init
     environment: stc-azure
     runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
