@@ -28,12 +28,13 @@ concurrency: ${{ github.repository }}/${{ github.event.pull_request.head.ref || 
 
 jobs:
   Init:
+    environment: stc-azure
     if: github.commit_tag == null
     container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
-      
+
       - name: Cache Terraform Init
         uses: actions/cache@v3
         with:
@@ -45,53 +46,55 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-  
+
   Format:
+    environment: stc-azure
     if: github.commit_tag == null
     container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
-      
+
       - name: Terraform Format
         id: fmt
         run: terraform fmt -check
-  
+
   Validate:
+    environment: stc-azure
     if: github.commit_tag == null
     container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
-      
+
       - name: Cache Terraform Init
         uses: actions/cache@v3
         with:
           path: .terraform
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
           restore-keys: |
-            ${{ runner.os }}-terraform-  
-      
+            ${{ runner.os }}-terraform-
+
       - name: Terraform Validate
         id: validate
         run: terraform validate
-  
+
   Test:
+    environment: stc-azure
     if: github.commit_tag == null
     container: hashicorp/terraform:latest
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
-      
+
       - name: Cache Terraform Init
         uses: actions/cache@v3
         with:
           path: .terraform
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
           restore-keys: |
-            ${{ runner.os }}-terraform-  
+            ${{ runner.os }}-terraform-
 
       - name: Terraform Test
         id: test
         run: terraform test
-          

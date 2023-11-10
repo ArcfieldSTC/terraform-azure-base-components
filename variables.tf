@@ -100,7 +100,7 @@ variable "vnet_tags" {
 variable "create_ddos" {
   description = "create DDoS protection plan"
   type        = bool
-  default     = true
+  default     = false
 }
 variable "ddos_location" {
   description = "location of DDoS protection plan"
