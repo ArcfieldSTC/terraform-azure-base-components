@@ -31,7 +31,6 @@ jobs:
   Init:
     environment: stc-azure
     runs-on: ubuntu-latest
-    container: hashicorp/terraform:latest
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
@@ -48,22 +47,23 @@ jobs:
             ${{ runner.os }}-terraform-
 
       - name: Terraform Init
+        uses: hashicorp/setup-terraform@v3
         id: init
-        run: terraform init
+      - run: terraform init
 
   Format:
     needs: Init
     environment: stc-azure
     runs-on: ubuntu-latest
-    container: hashicorp/terraform:latest
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
 
       - name: Terraform Format
+        uses: hashicorp/setup-terraform@v3
         id: fmt
-        run: terraform fmt
+      - run: terraform fmt
 
   #Validate:
   #  needs: Init
@@ -91,7 +91,6 @@ jobs:
     needs: Init
     environment: stc-azure
     runs-on: ubuntu-latest
-    container: hashicorp/terraform:latest
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
@@ -108,5 +107,6 @@ jobs:
             ${{ runner.os }}-terraform-
 
       - name: Terraform Test
+        uses: hashicorp/setup-terraform@v3
         id: test
-        run: terraform test
+      - run: terraform test
