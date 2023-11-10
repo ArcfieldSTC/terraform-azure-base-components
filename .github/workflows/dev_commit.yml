@@ -4,14 +4,13 @@ on:
   push:
     branches:
       - dev
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
-    branches:
-      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  actions: write
+  id-token: write
 
 env:
   TF_LOG: ERROR
@@ -26,17 +25,13 @@ env:
   ARM_OIDC_TOKEN: $ {{ secrets.GITHUB_TOKEN }}
 
 
-concurrency: ${{ github.repository }}/${{ github.event.pull_request.head.ref || github.ref }}
+concurrency: ${{ github.repository }}/${{ github.ref }}
 
 jobs:
   Init:
     environment: stc-azure
-    runs-on: stc-base-runner
+    runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
-    permissions:
-      contents: read
-      packages: write
-      actions: write
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
@@ -56,12 +51,8 @@ jobs:
 
   Format:
     environment: stc-azure
-    runs-on: stc-base-runner
+    runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
-    permissions:
-      contents: read
-      packages: write
-      actions: write
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
@@ -73,12 +64,8 @@ jobs:
 
   Validate:
     environment: stc-azure
-    runs-on: stc-base-runner
+    runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
-    permissions:
-      contents: read
-      packages: write
-      actions: write
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
@@ -98,12 +85,8 @@ jobs:
 
   Test:
     environment: stc-azure
-    runs-on: stc-base-runner
+    runs-on: ubuntu-latest
     container: hashicorp/terraform:latest
-    permissions:
-      contents: read
-      packages: write
-      actions: write
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
