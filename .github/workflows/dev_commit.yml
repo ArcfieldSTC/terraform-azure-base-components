@@ -90,8 +90,6 @@ jobs:
     needs: Init
     environment: stc-azure
     runs-on: ubuntu-latest
-    env:
-      ARM_OIDC_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
     if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
