@@ -37,13 +37,13 @@ jobs:
       contents: read
       packages: write
       actions: write
-    if: github.commit_tag == null
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Cache Terraform Init
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: .terraform
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
@@ -62,10 +62,10 @@ jobs:
       contents: read
       packages: write
       actions: write
-    if: github.commit_tag == null
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Terraform Format
         id: fmt
@@ -79,13 +79,13 @@ jobs:
       contents: read
       packages: write
       actions: write
-    if: github.commit_tag == null
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Cache Terraform Init
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: .terraform
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
@@ -104,13 +104,13 @@ jobs:
       contents: read
       packages: write
       actions: write
-    if: github.commit_tag == null
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Cache Terraform Init
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: .terraform
           key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
