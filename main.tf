@@ -1,3 +1,6 @@
+provider "azurerm" {
+  features {}
+}
 locals {
   vnet_ddos_list       = [var.vnet_ddos_id, try(azurerm_network_ddos_protection_plan.this[0].id, null)]
   vnet_ddos            = compact(local.vnet_ddos_list)

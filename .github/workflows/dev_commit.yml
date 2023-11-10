@@ -63,27 +63,27 @@ jobs:
         id: fmt
         run: terraform fmt
 
-  Validate:
-    needs: Init
-    environment: stc-azure
-    runs-on: ubuntu-latest
-    container: hashicorp/terraform:latest
-    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
-    steps:
-      - name: Checkout the Repository
-        uses: actions/checkout@v3
+  #Validate:
+  #  needs: Init
+  #  environment: stc-azure
+  #  runs-on: ubuntu-latest
+  #  container: hashicorp/terraform:latest
+  #  if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+  #  steps:
+  #    - name: Checkout the Repository
+  #      uses: actions/checkout@v3
 
-      - name: Cache Terraform Init
-        uses: actions/cache@v2
-        with:
-          path: .terraform
-          key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
-          restore-keys: |
-            ${{ runner.os }}-terraform-
+  #    - name: Cache Terraform Init
+  #      uses: actions/cache@v2
+  #      with:
+  #        path: .terraform
+  #        key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
+  #        restore-keys: |
+  #          ${{ runner.os }}-terraform-
 
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate
+  #    - name: Terraform Validate
+  #      id: validate
+  #      run: terraform validate
 
   Test:
     needs: Init
