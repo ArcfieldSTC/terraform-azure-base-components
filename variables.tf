@@ -45,7 +45,7 @@ variable "sg_tags" {
   type        = map(string)
   default     = {}
 }
-variable "nsg_rg_name" {
+variable "sg_rg_name" {
   description = "resource group name for security group"
   type        = string
   default     = "${var.name-prefix}-resource-group"
@@ -61,6 +61,11 @@ variable "vnet_location" {
   description = "location of virtual network"
   type        = string
   default     = var.primary_region
+}
+variable "vnet_rg_name" {
+  description = "resource group name for virtual network"
+  type        = string
+  default     = "${var.name-prefix}-resource-group"
 }
 variable "vnet_cidr" {
   description = "CIDR block for virtual network"
@@ -114,39 +119,39 @@ variable "ddos_rg_name" {
 }
 
 ### Main Subnet variables
-variable "main_subnet_rg_name" {
+variable "main_subnets_rg_name" {
   description = "resource group name for main subnet"
   type        = string
   default     = "${var.name-prefix}-resource-group"
 }
-variable "main_subnet_vnet_name" {
+variable "main_subnets_vnet_name" {
   description = "virtual network name for main subnet"
   type        = string
   default     = "${var.name-prefix}-vnet"
 }
-variable "main_subnet_service_endpoints" {
+variable "main_subnets_service_endpoints" {
   description = "service endpoints for main subnet"
   type        = list(string)
   default     = []
 }
 
 ### Service Dedicated Subnet variables
-variable "service_subnet_rg_name" {
+variable "service_subnets_rg_name" {
   description = "resource group name for service dedicated subnet"
   type        = string
   default     = "${var.name-prefix}-resource-group"
 }
-variable "service_subnet_vnet_name" {
+variable "service_subnets_vnet_name" {
   description = "virtual network name for service dedicated subnet"
   type        = string
   default     = "${var.name-prefix}-vnet"
 }
-variable "service_subnet_service_endpoints" {
+variable "service_subnets_service_endpoints" {
   description = "service endpoints for service dedicated subnet"
   type        = list(string)
   default     = []
 }
-variable "service_subnet_delegations" {
+variable "service_subnets_delegations" {
   description = "delegations for service dedicated subnet"
   type        = list(string)
   default     = []
@@ -208,7 +213,7 @@ variable "kv_network_acls_default_action" {
   type        = string
   default     = "Deny"
 }
-variable "kv_tenat_id" {
+variable "kv_tenant_id" {
   description = "tenant ID for key vault"
   type        = string
   default     = null
@@ -225,6 +230,11 @@ variable "kv_disk_encryption_enabled" {
 }
 variable "kv_rbac_enabled" {
   description = "RBAC enabled for key vault"
+  type        = bool
+  default     = false
+}
+variable "kv_template_deployment_enabled" {
+  description = "template deployment enabled for key vault"
   type        = bool
   default     = false
 }
