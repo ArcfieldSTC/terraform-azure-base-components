@@ -36,7 +36,7 @@ provider "azurerm" {
       scale_to_zero_before_deletion = true
     }
   }
-}
+  use_oidc = true
 
 variables {
     name-prefix = "stc-test"
