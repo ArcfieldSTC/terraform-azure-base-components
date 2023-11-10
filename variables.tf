@@ -1,4 +1,4 @@
-### Common variables
+#### Common variables
 variable "name-prefix" {
   description = "value to be used as prefix for all resources"
   type        = string
