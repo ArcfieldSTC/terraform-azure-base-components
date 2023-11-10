@@ -1,7 +1,7 @@
 name: Terraform Module Release
 
 on:
-  pull_reuqest:
+  pull_request:
     types:
       - closed
     branches:
@@ -20,7 +20,6 @@ jobs:
     permissions:
       contents: write
       actions: write
-      administration: write
 
     steps:
       - name: Checkout the Repository

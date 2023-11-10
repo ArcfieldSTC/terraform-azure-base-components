@@ -16,7 +16,7 @@ on:
 env:
   TF_LOG: ERROR
   TF_ROOT: ${{ github.repository.directory }}
-  ARM_CLIENT_ID: ${{ secret.ARM_CLIENT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_USE_OIDC: true
@@ -25,13 +25,6 @@ env:
   ARM_ENVIRONMENT: ${{ secrets.ARM_ENVIRONMENT }}
   ARM_OIDC_TOKEN: $ {{ secrets.GITHUB_TOKEN }}
 
-defaults:
-  runs-on: stc-base-runner
-  container: hashicorp/terraform:latest
-  cache:
-    paths:
-      - .terraform
-      - .terraform.lock.hcl
 
 concurrency: ${{ github.repository }}/${{ github.event.pull_request.head.ref || github.ref }}
 
@@ -39,6 +32,11 @@ jobs:
   Init:
     environment: stc-azure
     runs-on: stc-base-runner
+    container: hashicorp/terraform:latest
+    permissions:
+      contents: read
+      packages: write
+      actions: write
     if: github.commit_tag == null
     steps:
       - name: Checkout the Repository
@@ -53,26 +51,34 @@ jobs:
             ${{ runner.os }}-terraform-
 
       - name: Terraform Init
-        container: hashicorp/terraform:latest
         id: init
         run: terraform init
 
   Format:
     environment: stc-azure
     runs-on: stc-base-runner
+    container: hashicorp/terraform:latest
+    permissions:
+      contents: read
+      packages: write
+      actions: write
     if: github.commit_tag == null
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
 
       - name: Terraform Format
-        container: hashicorp/terraform:latest
         id: fmt
         run: terraform fmt -check
 
   Validate:
     environment: stc-azure
     runs-on: stc-base-runner
+    container: hashicorp/terraform:latest
+    permissions:
+      contents: read
+      packages: write
+      actions: write
     if: github.commit_tag == null
     steps:
       - name: Checkout the Repository
@@ -87,13 +93,17 @@ jobs:
             ${{ runner.os }}-terraform-
 
       - name: Terraform Validate
-        container: hashicorp/terraform:latest
         id: validate
         run: terraform validate
 
   Test:
     environment: stc-azure
     runs-on: stc-base-runner
+    container: hashicorp/terraform:latest
+    permissions:
+      contents: read
+      packages: write
+      actions: write
     if: github.commit_tag == null
     steps:
       - name: Checkout the Repository
@@ -108,6 +118,5 @@ jobs:
             ${{ runner.os }}-terraform-
 
       - name: Terraform Test
-        container: hashicorp/terraform:latest
         id: test
         run: terraform test
