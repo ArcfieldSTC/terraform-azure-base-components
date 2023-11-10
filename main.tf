@@ -18,23 +18,23 @@ locals {
 resource "azurerm_resource_group" "this" {
   count    = var.create_rg == true ? 1 : 0
   name     = "${var.name-prefix}-resource-group"
-  location = var.rg_location
+  location = try(var.rg_location, var.primary_region)
   tags     = merge(var.default_tags, var.rg_tags)
 }
 # Creation of the base NSG
 resource "azurerm_network_security_group" "this" {
   count               = var.create_sg == true ? 1 : 0
   name                = "${var.name-prefix}-nsg"
-  location            = var.sg_location
-  resource_group_name = var.sg_rg_name
+  location            = try(var.sg_location, var.primary_region)
+  resource_group_name = try(var.sg_rg_name, azurerm_resource_group.this[0].name)
   tags                = merge(var.default_tags, var.sg_tags)
 }
 # Creation of the base VNet
 resource "azurerm_virtual_network" "this" {
   count               = var.create_vnet == true ? 1 : 0
   name                = "${var.name-prefix}-vnet"
-  location            = var.vnet_location
-  resource_group_name = var.vnet_rg_name
+  location            = try(var.vnet_location, var.primary_region)
+  resource_group_name = try(var.vnet_rg_name, azurerm_resource_group.this[0].name)
   address_space       = [var.vnet_cidr]
   bgp_community       = var.bgp_community
   dynamic "ddos_protection_plan" {
@@ -51,16 +51,16 @@ resource "azurerm_virtual_network" "this" {
 resource "azurerm_network_ddos_protection_plan" "this" {
   count               = var.create_ddos == true ? 1 : 0
   name                = "${var.name-prefix}-ddos"
-  location            = var.ddos_location
-  resource_group_name = var.ddos_rg_name
+  location            = try(var.ddos_location, var.primary_region)
+  resource_group_name = try(var.ddos_rg_name, azurerm_resource_group.this[0].name)
   tags                = merge(var.default_tags, var.ddos_tags)
 }
 # Creation of Subnets
 resource "azurerm_subnet" "main" {
   count                                         = length(local.subnet_names)
   name                                          = "${local.subnet_names[count.index]}-subnet"
-  resource_group_name                           = var.main_subnets_rg_name
-  virtual_network_name                          = var.main_subnets_vnet_name
+  resource_group_name                           = try(var.main_subnets_rg_name, azurerm_resource_group.this[0].name)
+  virtual_network_name                          = try(var.main_subnets_vnet_name, azurerm_virtual_network.this[0].name)
   address_prefixes                              = [local.subnets[count.index]]
   private_endpoint_network_policies_enabled     = false
   private_link_service_network_policies_enabled = false
@@ -69,8 +69,8 @@ resource "azurerm_subnet" "main" {
 resource "azurerm_subnet" "svc_dedicated" {
   count                                         = length(var.service_subnets_delegations)
   name                                          = "${split("/", var.service_subnets_delegations[count.index])[1]}-subnet"
-  resource_group_name                           = var.service_subnets_rg_name
-  virtual_network_name                          = var.service_subnets_vnet_name
+  resource_group_name                           = try(var.service_subnets_rg_name, azurerm_resource_group.this[0].name)
+  virtual_network_name                          = try(var.service_subnets_vnet_name, azurerm_virtual_network.this[0].name)
   address_prefixes                              = [cidrsubnet(local.dedicated_svc_subnet, local.delegated_newbits, count.index)]
   private_endpoint_network_policies_enabled     = false
   private_link_service_network_policies_enabled = false
@@ -80,8 +80,8 @@ resource "azurerm_subnet" "svc_dedicated" {
 resource "azurerm_key_vault" "this" {
   count                           = var.create_kv == true ? 1 : 0
   name                            = "${var.name-prefix}-kv"
-  location                        = var.kv_location
-  resource_group_name             = var.kv_rg_name
+  location                        = try(var.kv_location, var.primary_region)
+  resource_group_name             = try(var.kv_rg_name, azurerm_resource_group.this[0].name)
   sku_name                        = var.kv_sku
   tenant_id                       = var.kv_tenant_id
   enabled_for_deployment          = var.kv_deploy_access_policy
