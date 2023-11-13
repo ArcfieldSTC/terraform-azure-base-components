@@ -40,5 +40,4 @@ jobs:
             @semantic-release/changelog
             @semantic-release/github
             @semantic-release/git
-          semantic_version: 0.0.0
           branch: main
