@@ -62,6 +62,27 @@ variables {
 }
 
 run "test_module" {
+    variables {
+        name-prefix = "stc-test"
+        primary_region = "USGov Virginia"
+        default_tags = {
+            Environment = "Test"
+            CostType = "OH"
+        }
+        vnet_cidr = "192.167.0.0/16"
+        kv_tenant_id = "7d11087c-b2fa-4fe4-b0cc-65e2c824dcd9"
+        service_subnets_delegations = ["Microsoft.ContainerService/managedClusters"]
+        main_subnets_service_endpoints = [
+            "Microsoft.ContainerRegistry",
+            "Microsoft.KeyVault",
+            "Microsoft.Storage"
+        ]
+        service_subnets_service_endpoints = [
+            "Microsoft.ContainerRegistry",
+            "Microsoft.KeyVault",
+            "Microsoft.Storage"
+        ]
+    }
     command = apply
     // module {
     //     source = "./tests/setup"
