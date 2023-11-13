@@ -1,21 +1,18 @@
 name: Terraform Module Release
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - main
 
 env:
   TF_LOG: ERROR
 
-concurrency: ${{ github.repository }}/${{ github.event.pull_request.head.ref || github.ref }}
+concurrency: ${{ github.repository }}/${{ github.ref }}
 
 jobs:
   terraform-module-release:
     environment: stc-azure
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
