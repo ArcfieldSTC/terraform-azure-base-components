@@ -26,15 +26,11 @@ jobs:
           fetch-depth: 0        
 
       - name: Release
-        uses: cycjimmy/semantic-release-action@v4.0.0
+        uses: cycjimmy/semantic-release-action@v4
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }} 
         with:
-          extra_plugins: |
-            @semantic-release/commit-analyzer
-            @semantic-release/release-notes-generator
-            @semantic-release/changelog
-            @semantic-release/github
-            @semantic-release/git
           branch: main
+          extends: |
+            @nuvibit/github-terraform-semantic-release-config
