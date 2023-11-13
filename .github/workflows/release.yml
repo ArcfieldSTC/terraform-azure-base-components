@@ -31,13 +31,14 @@ jobs:
       - name: Release
         uses: cycjimmy/semantic-release-action@v4.0.0
         id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          plugins: |
+          extra_plugins: |
             @semantic-release/commit-analyzer
             @semantic-release/release-notes-generator
             @semantic-release/changelog
             @semantic-release/github
             @semantic-release/git
-          semantic_version: 1.0.0
+          semantic_version: 0.0.0
           branch: main
